@@ -224,6 +224,8 @@ namespace Symbioz.World.Handlers.Approach
             // Capacités du personnage (masque de bits des actions autorisées)
             client.Send(new CharacterCapabilitiesMessage(4095));
             client.Send(new SequenceNumberRequestMessage());
+            // Envoie le status du personnage au client
+            client.Send(new PlayerStatusUpdateMessage(client.Account.Id,(ulong)client.Character.Id,client.Character.Status));
             client.Character.RefreshEmotes();
             client.Character.RefreshSpells();
             client.Character.Inventory.Refresh();

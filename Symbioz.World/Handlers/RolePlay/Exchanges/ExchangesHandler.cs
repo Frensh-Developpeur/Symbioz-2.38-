@@ -5,6 +5,7 @@ using Symbioz.World.Models.Dialogs.DialogBox;
 using Symbioz.World.Models.Entities;
 using Symbioz.World.Models.Exchanges;
 using Symbioz.World.Network;
+using Symbioz.World.Providers.Fights.Challenges.Repertory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -195,6 +196,17 @@ namespace Symbioz.World.Handlers.RolePlay.Exchanges
             // Vérifie que la sous-zone autorise les échanges entre joueurs
             if (!target.Map.Position.AllowExchangesBetweenPlayers)
             {
+                client.Character.OnExchangeError(ExchangeErrorEnum.REQUEST_IMPOSSIBLE);
+                return;
+            }
+            if(target.Status.statusId != (sbyte)PlayerStatusEnum.PLAYER_STATUS_AVAILABLE)
+            {
+                if(target.Status.statusId != (sbyte)PlayerStatusEnum.PLAYER_STATUS_PRIVATE)
+                {
+                    client.Character.OnExchangeError(ExchangeErrorEnum.REQUEST_IMPOSSIBLE);
+                    return;
+                }
+                /// Pour l'instant on laisse le message d'erreur ( il faudra vérifier si amis > on continue)
                 client.Character.OnExchangeError(ExchangeErrorEnum.REQUEST_IMPOSSIBLE);
                 return;
             }

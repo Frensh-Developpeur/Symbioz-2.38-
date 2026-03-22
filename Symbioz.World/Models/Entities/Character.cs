@@ -89,7 +89,7 @@ namespace Symbioz.World.Models.Entities
         {
             get;
             set;
-        }
+        } = new PlayerStatus((sbyte)PlayerStatusEnum.PLAYER_STATUS_AVAILABLE);
 
         /// <summary>
         /// Multiplicateur d'XP basé sur le nombre de personnages du compte

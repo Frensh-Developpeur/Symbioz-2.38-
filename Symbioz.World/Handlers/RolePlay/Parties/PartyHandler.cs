@@ -24,15 +24,27 @@ namespace Symbioz.World.Handlers.RolePlay.Parties
         {
             WorldClient target = WorldServer.Instance.GetOnlineClient(message.name);
 
-            if (target != null)
-            {
-                client.Character.InviteParty(target.Character);
-            }
-            else
+            if (target == null)
             {
                 client.Character.OnPartyJoinError(PartyJoinErrorEnum.PARTY_JOIN_ERROR_PLAYER_NOT_FOUND);
+                return;
             }
+
+            if(target.Character.Status.statusId != (sbyte)PlayerStatusEnum.PLAYER_STATUS_AVAILABLE)
+            {
+                if(target.Character.Status.statusId != (sbyte)PlayerStatusEnum.PLAYER_STATUS_PRIVATE)
+                {
+                    client.Character.OnPartyJoinError(PartyJoinErrorEnum.PARTY_JOIN_ERROR_PLAYER_BUSY);
+                    return;
+                }
+                /// Pour l'instant on laisse le message d'erreur ( il faudra vérifier si amis > on continue)
+                client.Character.OnPartyJoinError(PartyJoinErrorEnum.PARTY_JOIN_ERROR_PLAYER_BUSY);
+                return;
+            }
+
+            client.Character.InviteParty(target.Character);
         }
+        
         [MessageHandler]
         public static void HandlePartyInvitationDetailsRequest(PartyInvitationDetailsRequestMessage message, WorldClient client)
         {
