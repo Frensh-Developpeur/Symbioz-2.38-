@@ -85,11 +85,15 @@ namespace Symbioz.World.Models.Entities
             private set;
         }
 
+        /// <summary>
+        /// Status du personnage
+        /// Valeur par défaut ajouter car données pas stocké en BDD pour le moment
+        /// </summary>
         public PlayerStatus Status
         {
             get;
             set;
-        } = new PlayerStatus((sbyte)PlayerStatusEnum.PLAYER_STATUS_AVAILABLE);
+        }
 
         /// <summary>
         /// Multiplicateur d'XP basé sur le nombre de personnages du compte
@@ -1524,6 +1528,14 @@ namespace Symbioz.World.Models.Entities
                 Client.Send(new MountSetMessage(Inventory.Mount.GetMountClientData()));
             }
         }
+
+        /// <summary>Initialise le status du joueur pour la session</summary>
+        public void InitStatus()
+        {
+             Status = new PlayerStatus(Record.StatusId);
+             this.Client.Send(new PlayerStatusUpdateMessage(this.Client.Account.Id,(ulong)Id,Status));
+        }
+
         /// <summary>Affiche une fenêtre popup au joueur avec un message signé par un auteur.</summary>
         public void OpenPopup(byte lockDuration, string author, string content)
         {
@@ -2306,7 +2318,7 @@ namespace Symbioz.World.Models.Entities
             if (Map != null)
                 Map.Instance.RemoveEntity(this);
 
-            Record.UpdateElement();
+            Record.UpdateInstantElement();
 
         }
 

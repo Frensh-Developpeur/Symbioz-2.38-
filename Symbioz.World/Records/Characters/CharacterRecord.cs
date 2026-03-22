@@ -122,6 +122,9 @@ namespace Symbioz.World.Records.Characters
         [Update]
         public sbyte RemodelingMask;
 
+        [Update]
+        public sbyte StatusId;
+
         [Ignore]
         public List<ushort> Idols;
 
@@ -142,7 +145,7 @@ namespace Symbioz.World.Records.Characters
             ushort spellsPoints, ushort statsPoints, CharacterAlignment alignment, List<ushort> knownOrnaments, List<ushort> knownTitles,
             List<CharacterJob> jobs, List<short> doneObjectives, List<CharacterSpell> spells,
             List<CharacterHumanOption> humanOptions, ArenaRank arenaRank, List<CharacterShortcut> shortcuts, int lastAlmanachDay,
-            int guildId, int prestige, sbyte remodelingMask)
+            int guildId, int prestige, sbyte remodelingMask, sbyte statusId)
         {
             this.Id = id;
             this.Name = name;
@@ -176,6 +179,7 @@ namespace Symbioz.World.Records.Characters
             this.Muted = false;
             this.RemodelingMask = remodelingMask;
             this.Idols = new List<ushort>();
+            this.StatusId = statusId;
         }
         public void Restat(bool addStatPoints)
         {
@@ -221,7 +225,7 @@ namespace Symbioz.World.Records.Characters
                 ExperienceRecord.GetExperienceForLevel(level).Player, -1
                 , new List<byte>() { 1 }, Stats.New(level, breedId), 0, 0
                 , CharacterAlignment.New(), new List<ushort>(), new List<ushort>(), CharacterJob.New().ToList(),
-                new List<short>(), new List<CharacterSpell>(), new List<CharacterHumanOption>(), ArenaRank.New(), new List<CharacterShortcut>(), 0, 0, 0, 0);
+                new List<short>(), new List<CharacterSpell>(), new List<CharacterHumanOption>(), ArenaRank.New(), new List<CharacterShortcut>(), 0, 0, 0, 0, (sbyte)PlayerStatusEnum.PLAYER_STATUS_AVAILABLE);
 
             return record;
 

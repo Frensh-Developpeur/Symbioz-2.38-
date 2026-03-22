@@ -31,7 +31,10 @@ namespace Symbioz.World.Handlers.RolePlay
         [MessageHandler]
         public static void HandlePlayerStatusUpdateRequestMessage(PlayerStatusUpdateRequestMessage message,WorldClient client)
         {
+           
            client.Character.Status = message.status;
+           client.Character.Record.StatusId = message.status.statusId;
+           client.Character.Record.UpdateElement();
            client.Send(new PlayerStatusUpdateMessage(client.Account.Id,(ulong)client.Character.Id, message.status));
         }
 
