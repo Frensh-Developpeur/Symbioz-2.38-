@@ -121,8 +121,6 @@ namespace Symbioz.World.Handlers.RolePlay.Chat
                     target.Send(ChatChannels.GetChatServerMessage(ChatActivableChannelsEnum.PSEUDO_CHANNEL_PRIVATE, message.content, client));
                     client.Send(ChatChannels.GetChatServerCopyMessage(ChatActivableChannelsEnum.PSEUDO_CHANNEL_PRIVATE, message.content, client, target));
                 }
-            }
-                }
                 else if (target.Character.Status.statusId == (sbyte)PlayerStatusEnum.PLAYER_STATUS_AFK)
                 {
                     
