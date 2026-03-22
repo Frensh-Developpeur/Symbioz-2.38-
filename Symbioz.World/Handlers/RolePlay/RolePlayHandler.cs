@@ -27,7 +27,6 @@ namespace Symbioz.World.Handlers.RolePlay
     {
         /// <summary>
         /// Reçu quand le joueur met à jour son statut (AFK, occupé...).
-        /// Non implémenté pour l'instant : le message est reçu mais ignoré.
         /// </summary>
         [MessageHandler]
         public static void HandlePlayerStatusUpdateRequestMessage(PlayerStatusUpdateRequestMessage message,WorldClient client)

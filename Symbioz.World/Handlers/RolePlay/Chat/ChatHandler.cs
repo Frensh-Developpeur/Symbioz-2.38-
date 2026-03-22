@@ -3,6 +3,7 @@ using Symbioz.Core.DesignPattern.StartupEngine;
 using Symbioz.Protocol.Enums;
 using Symbioz.Protocol.Messages;
 using Symbioz.Protocol.Selfmade.Enums;
+using Symbioz.Protocol.Types;
 using Symbioz.World.Handlers.RolePlay.Commands;
 using Symbioz.World.Network;
 using System;
@@ -11,6 +12,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace Symbioz.World.Handlers.RolePlay.Chat
 {
@@ -102,13 +104,41 @@ namespace Symbioz.World.Handlers.RolePlay.Chat
 
             if (target != null)
             {
-                target.Send(ChatChannels.GetChatServerMessage(ChatActivableChannelsEnum.PSEUDO_CHANNEL_PRIVATE, message.content, client));
-                client.Send(ChatChannels.GetChatServerCopyMessage(ChatActivableChannelsEnum.PSEUDO_CHANNEL_PRIVATE, message.content, client, target));
+                if(target.Character.Status.statusId == (sbyte)PlayerStatusEnum.PLAYER_STATUS_IDLE)
+                {
+                    client.Character.OnChatError(ChatErrorEnum.CHAT_ERROR_RECEIVER_NOT_FOUND);
+                }
+                else if(target.Character.Status.statusId == (sbyte)PlayerStatusEnum.PLAYER_STATUS_SOLO)
+                {
+                    client.Character.OnChatError(ChatErrorEnum.CHAT_ERROR_RECEIVER_NOT_FOUND);
+                }
+                else if(target.Character.Status.statusId == (sbyte)PlayerStatusEnum.PLAYER_STATUS_PRIVATE)
+                {
+                    // faire un if pour Friend (voir plus tard)
+                    // Desactiver en attendant
+                }
+                else if (target.Character.Status.statusId == (sbyte)PlayerStatusEnum.PLAYER_STATUS_AFK)
+                {
+                    /// peut recevoir un message privé et on en renvoie un :p 
+                    if(target.Character.Status is PlayerStatusExtended extMessage)
+                    {
+                        client.Character.Reply(extMessage.message);
+                    }
+                    target.Send(ChatChannels.GetChatServerMessage(ChatActivableChannelsEnum.PSEUDO_CHANNEL_PRIVATE, message.content, client));
+                    client.Send(ChatChannels.GetChatServerCopyMessage(ChatActivableChannelsEnum.PSEUDO_CHANNEL_PRIVATE, message.content, client, target));
+                }
+                else
+                {
+                    target.Send(ChatChannels.GetChatServerMessage(ChatActivableChannelsEnum.PSEUDO_CHANNEL_PRIVATE, message.content, client));
+                    client.Send(ChatChannels.GetChatServerCopyMessage(ChatActivableChannelsEnum.PSEUDO_CHANNEL_PRIVATE, message.content, client, target));
+                }
+
             }
             else
             {
                 client.Character.OnChatError(ChatErrorEnum.CHAT_ERROR_RECEIVER_NOT_FOUND);
             }
+            
         }
 
         // Envoie un message d'annonce coloré à tous les joueurs connectés (utilisé par les GMs)
