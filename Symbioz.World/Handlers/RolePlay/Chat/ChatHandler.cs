@@ -106,26 +106,38 @@ namespace Symbioz.World.Handlers.RolePlay.Chat
             {
                 if(target.Character.Status.statusId == (sbyte)PlayerStatusEnum.PLAYER_STATUS_IDLE)
                 {
-                    client.Character.OnChatError(ChatErrorEnum.CHAT_ERROR_RECEIVER_NOT_FOUND);
+                    target.Send(ChatChannels.GetChatServerMessage(ChatActivableChannelsEnum.PSEUDO_CHANNEL_PRIVATE, message.content, client));
+                    client.Send(ChatChannels.GetChatServerCopyMessage(ChatActivableChannelsEnum.PSEUDO_CHANNEL_PRIVATE, message.content, client, target));
+                    client.Character.Reply($"Le joueur est absent.");
                 }
                 else if(target.Character.Status.statusId == (sbyte)PlayerStatusEnum.PLAYER_STATUS_SOLO)
                 {
-                    client.Character.OnChatError(ChatErrorEnum.CHAT_ERROR_RECEIVER_NOT_FOUND);
+                    client.Character.Reply($"Le joueur ne peut pas recevoir de message pour le moment.");
                 }
                 else if(target.Character.Status.statusId == (sbyte)PlayerStatusEnum.PLAYER_STATUS_PRIVATE)
                 {
                     // faire un if pour Friend (voir plus tard)
-                    // Desactiver en attendant
+                    // Pour l'instant, il ne filtre rien.
+                    target.Send(ChatChannels.GetChatServerMessage(ChatActivableChannelsEnum.PSEUDO_CHANNEL_PRIVATE, message.content, client));
+                    client.Send(ChatChannels.GetChatServerCopyMessage(ChatActivableChannelsEnum.PSEUDO_CHANNEL_PRIVATE, message.content, client, target));
+                }
+            }
                 }
                 else if (target.Character.Status.statusId == (sbyte)PlayerStatusEnum.PLAYER_STATUS_AFK)
                 {
-                    /// peut recevoir un message privé et on en renvoie un :p 
-                    if(target.Character.Status is PlayerStatusExtended extMessage)
-                    {
-                        client.Character.Reply(extMessage.message);
-                    }
+                    
                     target.Send(ChatChannels.GetChatServerMessage(ChatActivableChannelsEnum.PSEUDO_CHANNEL_PRIVATE, message.content, client));
                     client.Send(ChatChannels.GetChatServerCopyMessage(ChatActivableChannelsEnum.PSEUDO_CHANNEL_PRIVATE, message.content, client, target));
+                    
+                    /// peut recevoir un message privé et on en renvoie un
+                    if(target.Character.Status is PlayerStatusExtended extMessage)
+                    {
+                        client.Character.Reply($"Le joueur est absent - Message automatique : {extMessage.message} ");
+                    }
+                    else
+                    {
+                        client.Character.Reply($"Le joueur est absent.");
+                    }
                 }
                 else
                 {
