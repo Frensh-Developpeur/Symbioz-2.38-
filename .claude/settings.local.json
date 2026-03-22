@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmd.exe /c \"taskkill /PID 5384 /F\")",
+      "Read(//tmp/**)"
+    ]
+  }
+}

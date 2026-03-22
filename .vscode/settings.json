@@ -1,0 +1,5 @@
+{
+    "dotnet.defaultSolution": "Symbioz 2.38 .NET Core 6.sln",
+    "csharp.inlayHints.enableInlayHintsForParameters": true,
+    "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true
+}
