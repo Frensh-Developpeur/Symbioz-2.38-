@@ -12,4 +12,5 @@ Le code sera pas forcément le plus propre que vous ayez vu.
 4. Amélioration du système de chargement des maps au lancement du serveur ( IA ).
 5. Correction d'un bug d'affichage du client pour les spells sans effet direct.
 6. Ajout du système de status du joueur ( Absent, Privé ect.. ) ( TODO : Ajout d'une condition quand le système d'amis sera sur le jeu pour le status Privé )
-7.  Soon
+7. Ajout d'un launcheur pour lancer les différentes console + une interface administrateur. ( Il faut que je repasse dessus c'est pas hyper clean (enfin bon ca fonctionne :D ).
+8. Soooon
