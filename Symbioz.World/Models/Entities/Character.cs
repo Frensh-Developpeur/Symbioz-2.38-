@@ -85,6 +85,12 @@ namespace Symbioz.World.Models.Entities
             private set;
         }
 
+        public PlayerStatus Status
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Multiplicateur d'XP basé sur le nombre de personnages du compte
         /// qui sont de niveau supérieur à ce personnage.
@@ -1873,7 +1879,7 @@ namespace Symbioz.World.Models.Entities
         /// <summary>Retourne le statut du joueur (disponible, absent, occupé...).</summary>
         public PlayerStatus GetPlayerStatus()
         {
-            return new PlayerStatus(0);
+            return Status;
         }
         /// <summary>Retourne les données du métier demandé pour ce personnage.</summary>
         public CharacterJob GetJob(JobsTypeEnum job)
