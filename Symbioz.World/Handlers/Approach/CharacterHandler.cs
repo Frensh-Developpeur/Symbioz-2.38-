@@ -239,9 +239,6 @@ namespace Symbioz.World.Handlers.Approach
             client.Send(new EnabledChannelsMessage(new sbyte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13 },
                new sbyte[0]));
             client.Character.SafeConnection();
-            
-            // Initialise le status du personnage et l'envoie au client
-            client.Character.InitStatus();
 
             // Signale au client que le chargement est terminé (déclenche l'affichage du monde)
             client.Send(new CharacterLoadingCompleteMessage());

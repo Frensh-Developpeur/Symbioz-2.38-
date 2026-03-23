@@ -87,7 +87,6 @@ namespace Symbioz.World.Models.Entities
 
         /// <summary>
         /// Status du personnage
-        /// Valeur par défaut ajouter car données pas stocké en BDD pour le moment
         /// </summary>
         public PlayerStatus Status
         {
@@ -1379,6 +1378,10 @@ namespace Symbioz.World.Models.Entities
         /// <summary>Appelé quand le personnage arrive sur une nouvelle map. Initialise l'entité, envoie les données de map et exécute le callback OnNextEnterMap si défini.</summary>
         public void OnEnterMap()
         {
+            if(!ChangeMap)
+            {
+                InitStatus();
+            }
             this.ChangeMap = false;
             if(OnNextEnterMap != null)
             {
