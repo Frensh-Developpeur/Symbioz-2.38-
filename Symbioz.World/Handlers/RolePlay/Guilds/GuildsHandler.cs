@@ -59,6 +59,10 @@ namespace Symbioz.World.Handlers.RolePlay.Guilds
                     client.Character.TextInformation(TextInformationTypeEnum.TEXT_INFORMATION_ERROR, 208); // Joueur introuvable
                 else if (target.Character.HasGuild)
                     client.Character.TextInformation(TextInformationTypeEnum.TEXT_INFORMATION_ERROR, 206); // Déjà en guilde
+                else if (target.Character.Status.statusId != (sbyte)PlayerStatusEnum.PLAYER_STATUS_AVAILABLE)
+                {
+                    client.Character.TextInformation(TextInformationTypeEnum.TEXT_INFORMATION_ERROR, 209);
+                }
                 else if (target.Character.Busy)
                     client.Character.TextInformation(TextInformationTypeEnum.TEXT_INFORMATION_ERROR, 209); // Occupé
                 else if (!client.Character.Guild.CanAddMember())
