@@ -1,7 +1,9 @@
-﻿using Symbioz.Protocol.Messages;
+﻿using Symbioz.Protocol.Enums;
+using Symbioz.Protocol.Messages;
 using Symbioz.World.Models.Entities;
 using Symbioz.World.Models.Fights;
 using Symbioz.World.Providers.Fights;
+using Symbioz.World.Providers.Fights.Challenges.Repertory;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -151,8 +151,26 @@ namespace Symbioz.World.Handlers.Fight
                     }
                     else
                     {
-                        // Ouvre une boîte de dialogue pour que la cible accepte ou refuse le défi
-                        target.OpenRequestBox(new DualRequest(client.Character, target));
+                        if(target.Status.statusId != (ushort)PlayerStatusEnum.PLAYER_STATUS_AVAILABLE)
+                        {
+                            if(target.Status.statusId != (ushort)PlayerStatusEnum.PLAYER_STATUS_PRIVATE)
+                            {
+                                // Interdit tout les types de status sauf Privtate et Available
+                                client.Send(new ChallengeFightJoinRefusedMessage((ulong)client.Character.Id, (sbyte)FighterRefusedReasonEnum.OPPONENT_OCCUPIED));
+                            }
+                            else
+                            {
+                                // A ajouter quand le systeme d'amis sera fait (vérifier si amis > autoriser) 
+                                // En attendant on bloque
+                                client.Send(new ChallengeFightJoinRefusedMessage((ulong)client.Character.Id, (sbyte)FighterRefusedReasonEnum.OPPONENT_OCCUPIED));
+                            }
+                        }
+                        else
+                        {
+                            // Ouvre une boîte de dialogue pour que la cible accepte ou refuse le défi
+                            target.OpenRequestBox(new DualRequest(client.Character, target));
+                        }
+                        
                     }
                 }
                 else
