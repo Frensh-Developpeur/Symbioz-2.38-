@@ -10,10 +10,19 @@ namespace Symbioz.Core
     {
         private object m_lastValue;
 
+        private static bool HasConsole()
+        {
+            try { _ = Console.CursorLeft; return true; }
+            catch { return false; }
+        }
+
         public UpdateLogger()
         {
-            PositionX = Console.CursorLeft;
-            PositionY = Console.CursorTop;
+            if (HasConsole())
+            {
+                PositionX = Console.CursorLeft;
+                PositionY = Console.CursorTop;
+            }
         }
 
         public UpdateLogger(int positionX, int positionY)
@@ -41,6 +50,8 @@ namespace Symbioz.Core
 
             m_lastValue = value;
 
+            if (!HasConsole()) { Console.WriteLine(value + "%"); return; }
+
             int oldX = Console.CursorLeft;
             int oldY = Console.CursorTop;
 
@@ -54,6 +65,8 @@ namespace Symbioz.Core
             if (value.Equals(m_lastValue))
                 return;
 
+            if (!HasConsole()) { Console.WriteLine(value); return; }
+
             int oldX = Console.CursorLeft;
             int oldY = Console.CursorTop;
 
@@ -64,13 +77,14 @@ namespace Symbioz.Core
 
         public void End()
         {
+            if (!HasConsole()) return;
+
             string cleaner = string.Empty;
 
             for (int i = 0; i < Console.BufferWidth - PositionX; i++)
             {
                 cleaner += " ";
             }
-
 
             int oldX = Console.CursorLeft;
             int oldY = Console.CursorTop;
