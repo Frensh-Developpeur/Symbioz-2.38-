@@ -196,6 +196,8 @@ namespace Symbioz.Launcher
         private readonly RichTextBox _console;  // Zone d'affichage des logs
         private readonly Button _btnStart;
         private readonly Button _btnStop;
+        private readonly TextBox _input;        // Zone de saisie des commandes
+        private readonly Button _btnSend;       // Bouton d'envoi
 
         public ConsolePanel(string serverName, string exe, Color accent)
         {
@@ -300,8 +302,50 @@ namespace Symbioz.Launcher
                 WordWrap = false
             };
 
+            // ── Barre de saisie de commandes ──────────────────────────────────────
+            var inputBar = new Panel
+            {
+                Dock = DockStyle.Bottom,
+                Height = 36,
+                BackColor = Color.FromArgb(10, 10, 18)
+            };
+
+            _input = new TextBox
+            {
+                Dock = DockStyle.Fill,
+                BackColor = Color.FromArgb(20, 20, 32),
+                ForeColor = Color.FromArgb(180, 220, 180),
+                Font = new Font("Consolas", 9f),
+                BorderStyle = BorderStyle.None,
+                PlaceholderText = "  Entrez une commande...",
+                Enabled = false  // activé uniquement quand le serveur tourne
+            };
+            // Envoi sur touche Entrée
+            _input.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Enter) { e.SuppressKeyPress = true; SendCommand(); }
+            };
+
+            _btnSend = new Button
+            {
+                Text = "↵",
+                Dock = DockStyle.Right,
+                Width = 40,
+                BackColor = Color.FromArgb(30, 30, 55),
+                ForeColor = Color.FromArgb(110, 180, 255),
+                FlatStyle = FlatStyle.Flat,
+                Font = new Font("Consolas", 11f),
+                Enabled = false
+            };
+            _btnSend.FlatAppearance.BorderSize = 0;
+            _btnSend.Click += (s, e) => SendCommand();
+
+            inputBar.Controls.Add(_input);
+            inputBar.Controls.Add(_btnSend);
+
             // IMPORTANT : Fill en premier, puis les Top dans l'ordre inverse d'affichage
             Controls.Add(_console);
+            Controls.Add(inputBar);
             Controls.Add(accentLine);
             Controls.Add(header);
 
@@ -346,6 +390,7 @@ namespace Symbioz.Launcher
                     FileName = _exe,
                     WorkingDirectory = Path.GetDirectoryName(_exe) ?? BaseDir,
                     UseShellExecute = false,        // obligatoire pour la redirection
+                    RedirectStandardInput  = true,  // stdin  ← zone de saisie
                     RedirectStandardOutput = true,  // stdout → console embarquée (vert)
                     RedirectStandardError  = true,  // stderr → console embarquée (rouge)
                     CreateNoWindow = true,           // pas de fenêtre console externe
@@ -415,6 +460,20 @@ namespace Symbioz.Launcher
             });
         }
 
+        /// <summary>
+        /// Envoie la commande saisie dans le stdin du process et l'affiche dans la console.
+        /// </summary>
+        private void SendCommand()
+        {
+            if (_process == null || _process.HasExited) return;
+            string cmd = _input.Text.Trim();
+            if (cmd.Length == 0) return;
+
+            AppendLine($"  > {cmd}", Color.FromArgb(110, 180, 255));
+            _process.StandardInput.WriteLine(cmd);
+            SafeInvoke(() => _input.Clear());
+        }
+
         /// <summary>Passe le panneau en état "En cours" : dot coloré, boutons inversés.</summary>
         private void SetRunning()
         {
@@ -424,6 +483,8 @@ namespace Symbioz.Launcher
                 _statusLabel.ForeColor = _accent;
                 _btnStart.Enabled      = false;
                 _btnStop.Enabled       = true;
+                _input.Enabled         = true;
+                _btnSend.Enabled       = true;
             });
         }
 
@@ -436,6 +497,8 @@ namespace Symbioz.Launcher
                 _statusLabel.ForeColor = Color.FromArgb(60, 60, 85);
                 _btnStart.Enabled      = true;
                 _btnStop.Enabled       = false;
+                _input.Enabled         = false;
+                _btnSend.Enabled       = false;
             });
         }
 
