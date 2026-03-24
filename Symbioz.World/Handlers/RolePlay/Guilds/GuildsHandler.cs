@@ -59,7 +59,7 @@ namespace Symbioz.World.Handlers.RolePlay.Guilds
                     client.Character.TextInformation(TextInformationTypeEnum.TEXT_INFORMATION_ERROR, 208); // Joueur introuvable
                 else if (target.Character.HasGuild)
                     client.Character.TextInformation(TextInformationTypeEnum.TEXT_INFORMATION_ERROR, 206); // Déjà en guilde
-                else if (target.Character.Status.statusId != (sbyte)PlayerStatusEnum.PLAYER_STATUS_AVAILABLE)
+                else if (target.Character.Status.statusId != (sbyte)PlayerStatusEnum.PLAYER_STATUS_AVAILABLE) // Status Occuper :: TODO : Laissez passer plus tard si Frend pour private
                 {
                     client.Character.TextInformation(TextInformationTypeEnum.TEXT_INFORMATION_ERROR, 209);
                 }
