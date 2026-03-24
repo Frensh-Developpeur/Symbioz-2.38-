@@ -43,8 +43,8 @@ public GameFightFighterCompanionLightInformations()
 {
 }
 
-public GameFightFighterCompanionLightInformations(double id, sbyte wave, ushort level, sbyte breed, sbyte companionId, double masterId)
-         : base(id, wave, level, breed)
+public GameFightFighterCompanionLightInformations(bool sex, bool alive, double id, sbyte wave, ushort level, sbyte breed, sbyte companionId, double masterId)
+         : base(sex, alive, id, wave, level, breed)
         {
             this.companionId = companionId;
             this.masterId = masterId;

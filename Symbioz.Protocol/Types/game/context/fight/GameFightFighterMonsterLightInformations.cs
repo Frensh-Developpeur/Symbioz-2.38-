@@ -42,8 +42,8 @@ public GameFightFighterMonsterLightInformations()
 {
 }
 
-public GameFightFighterMonsterLightInformations(double id, sbyte wave, ushort level, sbyte breed, ushort creatureGenericId)
-         : base(id, wave, level, breed)
+public GameFightFighterMonsterLightInformations(bool sex, bool alive, double id, sbyte wave, ushort level, sbyte breed, ushort creatureGenericId)
+         : base(sex, alive, id, wave, level, breed)
         {
             this.creatureGenericId = creatureGenericId;
         }

@@ -42,8 +42,8 @@ public GameFightFighterNamedLightInformations()
 {
 }
 
-public GameFightFighterNamedLightInformations(double id, sbyte wave, ushort level, sbyte breed, string name)
-         : base(id, wave, level, breed)
+public GameFightFighterNamedLightInformations(bool sex, bool alive, double id, sbyte wave, ushort level, sbyte breed, string name)
+         : base(sex, alive, id, wave, level, breed)
         {
             this.name = name;
         }

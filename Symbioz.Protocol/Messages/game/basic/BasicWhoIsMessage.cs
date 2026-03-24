@@ -45,6 +45,7 @@ public bool self;
         public ulong playerId;
         public short areaId;
         public short serverId;
+        public short originServerId;
         public Types.AbstractSocialGroupInfos[] socialGroups;
         public sbyte playerState;
         
@@ -53,7 +54,7 @@ public BasicWhoIsMessage()
 {
 }
 
-public BasicWhoIsMessage(bool self, bool verbose, sbyte position, string accountNickname, int accountId, string playerName, ulong playerId, short areaId, short serverId, Types.AbstractSocialGroupInfos[] socialGroups, sbyte playerState)
+public BasicWhoIsMessage(bool self, bool verbose, sbyte position, string accountNickname, int accountId, string playerName, ulong playerId, short areaId, short serverId, short originServerId, Types.AbstractSocialGroupInfos[] socialGroups, sbyte playerState)
         {
             this.self = self;
             this.verbose = verbose;
@@ -64,6 +65,7 @@ public BasicWhoIsMessage(bool self, bool verbose, sbyte position, string account
             this.playerId = playerId;
             this.areaId = areaId;
             this.serverId = serverId;
+            this.originServerId = originServerId;
             this.socialGroups = socialGroups;
             this.playerState = playerState;
         }
@@ -83,6 +85,7 @@ byte flag1 = 0;
             writer.WriteVarUhLong(playerId);
             writer.WriteShort(areaId);
             writer.WriteShort(serverId);
+            writer.WriteShort(originServerId);
             writer.WriteUShort((ushort)socialGroups.Length);
             foreach (var entry in socialGroups)
             {
@@ -111,6 +114,7 @@ byte flag1 = reader.ReadByte();
                 throw new Exception("Forbidden value on playerId = " + playerId + ", it doesn't respect the following condition : playerId < 0 || playerId > 9007199254740990");
             areaId = reader.ReadShort();
             serverId = reader.ReadShort();
+            originServerId = reader.ReadShort();
             var limit = reader.ReadUShort();
             socialGroups = new Types.AbstractSocialGroupInfos[limit];
             for (int i = 0; i < limit; i++)

@@ -41,7 +41,7 @@ public ulong playerId;
         public sbyte alignmentSide;
         public sbyte breed;
         public bool sex;
-        public Types.BasicGuildInformations guildInfo;
+        public Types.GuildInformations guildInfo;
         public ushort moodSmileyId;
         public Types.PlayerStatus status;
         
@@ -50,7 +50,7 @@ public FriendOnlineInformations()
 {
 }
 
-public FriendOnlineInformations(int accountId, string accountName, sbyte playerState, ushort lastConnection, int achievementPoints, ulong playerId, string playerName, byte level, sbyte alignmentSide, sbyte breed, bool sex, Types.BasicGuildInformations guildInfo, ushort moodSmileyId, Types.PlayerStatus status)
+public FriendOnlineInformations(int accountId, string accountName, sbyte playerState, ushort lastConnection, int achievementPoints, ulong playerId, string playerName, byte level, sbyte alignmentSide, sbyte breed, bool sex, Types.GuildInformations guildInfo, ushort moodSmileyId, Types.PlayerStatus status)
          : base(accountId, accountName, playerState, lastConnection, achievementPoints)
         {
             this.playerId = playerId;
@@ -99,7 +99,7 @@ base.Deserialize(reader);
             if (breed < (byte)Enums.PlayableBreedEnum.Feca || breed > (byte)Enums.PlayableBreedEnum.Huppermage)
                 throw new Exception("Forbidden value on breed = " + breed + ", it doesn't respect the following condition : breed < (byte)Enums.PlayableBreedEnum.Feca || breed > (byte)Enums.PlayableBreedEnum.Huppermage");
             sex = reader.ReadBoolean();
-            guildInfo = new Types.BasicGuildInformations();
+            guildInfo = new Types.GuildInformations();
             guildInfo.Deserialize(reader);
             moodSmileyId = reader.ReadVarUhShort();
             if (moodSmileyId < 0)

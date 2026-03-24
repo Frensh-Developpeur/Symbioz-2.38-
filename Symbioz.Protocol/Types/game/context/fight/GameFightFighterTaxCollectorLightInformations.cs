@@ -43,8 +43,8 @@ public GameFightFighterTaxCollectorLightInformations()
 {
 }
 
-public GameFightFighterTaxCollectorLightInformations(double id, sbyte wave, ushort level, sbyte breed, ushort firstNameId, ushort lastNameId)
-         : base(id, wave, level, breed)
+public GameFightFighterTaxCollectorLightInformations(bool sex, bool alive, double id, sbyte wave, ushort level, sbyte breed, ushort firstNameId, ushort lastNameId)
+         : base(sex, alive, id, wave, level, breed)
         {
             this.firstNameId = firstNameId;
             this.lastNameId = lastNameId;

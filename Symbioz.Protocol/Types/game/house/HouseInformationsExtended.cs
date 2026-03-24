@@ -42,8 +42,8 @@ public HouseInformationsExtended()
 {
 }
 
-public HouseInformationsExtended(uint houseId, int[] doorsOnMap, string ownerName, ushort modelId, Types.GuildInformations guildInfo)
-         : base(houseId, doorsOnMap, ownerName, modelId)
+public HouseInformationsExtended(uint houseId, int[] doorsOnMap, string ownerName, bool isOnSale, bool isSaleLocked, ushort modelId, Types.GuildInformations guildInfo)
+         : base(houseId, doorsOnMap, ownerName, isOnSale, isSaleLocked, modelId)
         {
             this.guildInfo = guildInfo;
         }

@@ -42,7 +42,7 @@ public int spouseAccountId;
         public sbyte breed;
         public sbyte sex;
         public Types.EntityLook spouseEntityLook;
-        public Types.BasicGuildInformations guildInfo;
+        public Types.GuildInformations guildInfo;
         public sbyte alignmentSide;
         
 
@@ -50,7 +50,7 @@ public FriendSpouseInformations()
 {
 }
 
-public FriendSpouseInformations(int spouseAccountId, ulong spouseId, string spouseName, byte spouseLevel, sbyte breed, sbyte sex, Types.EntityLook spouseEntityLook, Types.BasicGuildInformations guildInfo, sbyte alignmentSide)
+public FriendSpouseInformations(int spouseAccountId, ulong spouseId, string spouseName, byte spouseLevel, sbyte breed, sbyte sex, Types.EntityLook spouseEntityLook, Types.GuildInformations guildInfo, sbyte alignmentSide)
         {
             this.spouseAccountId = spouseAccountId;
             this.spouseId = spouseId;
@@ -97,7 +97,7 @@ spouseAccountId = reader.ReadInt();
             sex = reader.ReadSByte();
             spouseEntityLook = new Types.EntityLook();
             spouseEntityLook.Deserialize(reader);
-            guildInfo = new Types.BasicGuildInformations();
+            guildInfo = new Types.GuildInformations();
             guildInfo.Deserialize(reader);
             alignmentSide = reader.ReadSByte();
             

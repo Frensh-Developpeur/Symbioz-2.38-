@@ -38,6 +38,8 @@ public virtual short TypeId
 public uint houseId;
         public int[] doorsOnMap;
         public string ownerName;
+        public bool isOnSale;
+        public bool isSaleLocked;
         public ushort modelId;
         
 
@@ -45,11 +47,13 @@ public HouseInformations()
 {
 }
 
-public HouseInformations(uint houseId, int[] doorsOnMap, string ownerName, ushort modelId)
+public HouseInformations(uint houseId, int[] doorsOnMap, string ownerName, bool isOnSale, bool isSaleLocked, ushort modelId)
         {
             this.houseId = houseId;
             this.doorsOnMap = doorsOnMap;
             this.ownerName = ownerName;
+            this.isOnSale = isOnSale;
+            this.isSaleLocked = isSaleLocked;
             this.modelId = modelId;
         }
         
@@ -57,7 +61,11 @@ public HouseInformations(uint houseId, int[] doorsOnMap, string ownerName, ushor
 public virtual void Serialize(ICustomDataOutput writer)
 {
 
-writer.WriteVarUhInt(houseId);
+byte flag1 = 0;
+            flag1 = BooleanByteWrapper.SetFlag(flag1, 0, isOnSale);
+            flag1 = BooleanByteWrapper.SetFlag(flag1, 1, isSaleLocked);
+            writer.WriteByte(flag1);
+            writer.WriteVarUhInt(houseId);
             writer.WriteUShort((ushort)doorsOnMap.Length);
             foreach (var entry in doorsOnMap)
             {
@@ -72,7 +80,10 @@ writer.WriteVarUhInt(houseId);
 public virtual void Deserialize(ICustomDataInput reader)
 {
 
-houseId = reader.ReadVarUhInt();
+byte flag1 = reader.ReadByte();
+            isOnSale = BooleanByteWrapper.GetFlag(flag1, 0);
+            isSaleLocked = BooleanByteWrapper.GetFlag(flag1, 1);
+            houseId = reader.ReadVarUhInt();
             if (houseId < 0)
                 throw new Exception("Forbidden value on houseId = " + houseId + ", it doesn't respect the following condition : houseId < 0");
             var limit = reader.ReadUShort();

@@ -37,17 +37,21 @@ public override short TypeId
 
 public int mapId;
         public ushort subAreaId;
+        public bool inFight;
+        public bool followSpouse;
         
 
 public FriendSpouseOnlineInformations()
 {
 }
 
-public FriendSpouseOnlineInformations(int spouseAccountId, ulong spouseId, string spouseName, byte spouseLevel, sbyte breed, sbyte sex, Types.EntityLook spouseEntityLook, Types.BasicGuildInformations guildInfo, sbyte alignmentSide, int mapId, ushort subAreaId)
+public FriendSpouseOnlineInformations(int spouseAccountId, ulong spouseId, string spouseName, byte spouseLevel, sbyte breed, sbyte sex, Types.EntityLook spouseEntityLook, Types.GuildInformations guildInfo, sbyte alignmentSide, int mapId, ushort subAreaId, bool inFight, bool followSpouse)
          : base(spouseAccountId, spouseId, spouseName, spouseLevel, breed, sex, spouseEntityLook, guildInfo, alignmentSide)
         {
             this.mapId = mapId;
             this.subAreaId = subAreaId;
+            this.inFight = inFight;
+            this.followSpouse = followSpouse;
         }
         
 
@@ -55,6 +59,10 @@ public override void Serialize(ICustomDataOutput writer)
 {
 
 base.Serialize(writer);
+            byte flags = 0;
+            if (inFight) flags |= 1;
+            if (followSpouse) flags |= 2;
+            writer.WriteByte(flags);
             writer.WriteInt(mapId);
             writer.WriteVarUhShort(subAreaId);
             
@@ -65,6 +73,9 @@ public override void Deserialize(ICustomDataInput reader)
 {
 
 base.Deserialize(reader);
+            byte flags = reader.ReadByte();
+            inFight = (flags & 1) != 0;
+            followSpouse = (flags & 2) != 0;
             mapId = reader.ReadInt();
             if (mapId < 0)
                 throw new Exception("Forbidden value on mapId = " + mapId + ", it doesn't respect the following condition : mapId < 0");

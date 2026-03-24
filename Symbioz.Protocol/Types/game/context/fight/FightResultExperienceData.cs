@@ -104,6 +104,22 @@ namespace Symbioz.Protocol.Types
         public override void Deserialize(ICustomDataInput reader)
         {
 
+            base.Deserialize(reader);
+            byte flag1 = reader.ReadByte();
+            showExperience = BooleanByteWrapper.GetFlag(flag1, 0);
+            showExperienceLevelFloor = BooleanByteWrapper.GetFlag(flag1, 1);
+            showExperienceNextLevelFloor = BooleanByteWrapper.GetFlag(flag1, 2);
+            showExperienceFightDelta = BooleanByteWrapper.GetFlag(flag1, 3);
+            showExperienceForGuild = BooleanByteWrapper.GetFlag(flag1, 4);
+            showExperienceForMount = BooleanByteWrapper.GetFlag(flag1, 5);
+            isIncarnationExperience = BooleanByteWrapper.GetFlag(flag1, 6);
+            experience = reader.ReadVarUhLong();
+            experienceLevelFloor = reader.ReadVarUhLong();
+            experienceNextLevelFloor = reader.ReadVarUhLong();
+            experienceFightDelta = reader.ReadVarUhLong();
+            experienceForGuild = reader.ReadVarUhLong();
+            experienceForMount = reader.ReadVarUhLong();
+            rerollExperienceMul = reader.ReadSByte();
 
         }
 
